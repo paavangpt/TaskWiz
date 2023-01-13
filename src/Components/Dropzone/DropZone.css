@@ -1,0 +1,10 @@
+.dropzone {
+    width: 100%;
+    background-color: #2b64de;
+    transition: .15s;
+    height: 0;
+}
+
+.active__dropzone {
+    transform: scaleY(10);
+}

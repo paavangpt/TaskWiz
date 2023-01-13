@@ -1,0 +1,14 @@
+.editable__svg__container {
+    padding: 10px;
+    background-color: #fff;
+}
+
+.editable svg {
+    width: 17px;
+    height: 17px;
+    color: black;
+}
+
+.editable__input {
+    max-width: 100%;
+}
