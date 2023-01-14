@@ -4,9 +4,17 @@
     right: 0;
     z-index: 100;
     background-color: #fff;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: -1px -1px 300px -65px rgba(94, 94, 94, 1);
+    -moz-box-shadow: -1px -1px 300px -65px rgba(94, 94, 94, 1);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 130px;
+    font-size: 0.8em;
     cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.dropdown:hover {
+    background-color: rgb(231, 231, 231);
 }

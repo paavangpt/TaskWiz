@@ -4,7 +4,9 @@ import DataContext from "../../Contexts/DataContext";
 import Card from "../Card/Card";
 import Dropdown from "../Dropdown/Dropdown";
 import Editable from "../Editable/Editable";
+import DropZone from "../Dropzone/DropZone";
 import "./Board.css";
+import AddCard from "../AddCard/AddCard";
 
 function Board(props) {
     const board = props.data;
@@ -16,9 +18,9 @@ function Board(props) {
     function toggleDropDown() {
         setShowDropDown(!showDropDown);
     }
-    
+
     function deleteBoard() {
-        const newData = data.filter(brd => brd.id != board.id);
+        const newData = data.filter((brd) => brd.id != board.id);
         setData(newData);
     }
 
@@ -30,7 +32,7 @@ function Board(props) {
     };
 
     return (
-        <div className="board">
+        <div className="board" data-id={board.id}>
             <div className="board__top relative">
                 <h2 className="board__title">
                     <span
@@ -46,10 +48,13 @@ function Board(props) {
                         {board.cards.length}
                     </span>
                 </h2>
-                <div className="board__top__more__btn" >
+                <div className="board__top__more__btn">
                     <MoreHorizontal onClick={toggleDropDown} />
                     {showDropDown ? (
-                        <Dropdown onClose={toggleDropDown} onClick={deleteBoard}>
+                        <Dropdown
+                            onClose={toggleDropDown}
+                            onClick={deleteBoard}
+                        >
                             <p>Delete Board</p>
                         </Dropdown>
                     ) : (
@@ -58,12 +63,26 @@ function Board(props) {
                 </div>
             </div>
             <div className="board__cards flex-1">
-                {board.cards.map((card) => {
-                    return <Card key={card.id} boardId={board.id} data={card}></Card>;
+                {
+                    board.cards.length == 0 ?
+                    <DropZone full={true} index={0} key={board.id + "dbz"}></DropZone> :
+                    <DropZone index={0} key={board.id + "dbz"}></DropZone>
+                }
+                {board.cards.map((card, index) => {
+                    return (
+                        <div className="card__container" 
+                        key={card.id}>
+                            <Card
+                                boardId={board.id}
+                                data={card}
+                            ></Card>
+                            <DropZone full={(index == board.cards.length - 1) ? true : false } index={index+1} key={card.id + "dbz"}></DropZone>
+                        </div>
+                    );
                 })}
             </div>
             <div className="board__footer">
-                <Editable changeData={props.changeData} boardId={board.id} />
+                <Editable toggleEditingState={props.toggleEditingState} changeData={props.changeData} boardId={board.id} />
             </div>
         </div>
     );

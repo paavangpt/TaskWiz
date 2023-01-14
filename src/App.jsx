@@ -3,12 +3,14 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import "./App.css";
+import AddCard from "./Components/AddCard/AddCard";
 import Board from "./Components/Board/Board";
 import DataContext from "./Contexts/DataContext";
 import { getData } from "./Data/DataProvider";
 
 function App() {
     const [data, setData] = useState(getData());
+    const [editing, setEditing] = useState(false);
 
     // function changeData(card, boardId) {
     //     console.log(board);
@@ -22,7 +24,7 @@ function App() {
         setData([
             ...data,
             {
-                id: data.length + 1,
+                id: "board" + data.length + 1,
                 title: "New Board",
                 cards: [],
             },
@@ -46,6 +48,9 @@ function App() {
                     </button>
                 </div>
                 <div className="app__content">
+                    {
+                        editing ? <AddCard toggleEditingState={setEditing} ></AddCard> : ""
+                    }
                     {data.length == 0 ? (
                         <div className="empty__kanban__message">
                             No Boards To Display. <br />
@@ -59,6 +64,7 @@ function App() {
                                         functions={{ changeBoardTitle }}
                                         key={board.id}
                                         data={board}
+                                        toggleEditingState={setEditing}
                                     />
                                 );
                             })}

@@ -1,10 +1,29 @@
 .dropzone {
     width: 100%;
-    background-color: #2b64de;
+    background-color: rgba(101, 144, 236, .8);
     transition: .15s;
-    height: 0;
+    height: 5px;
+    opacity: 0;
+    border-radius: 10px;
 }
 
 .active__dropzone {
-    transform: scaleY(10);
+    opacity: 1;
+    transform: scaleY(3);
+}
+
+.full__dropzone {
+    width: 100%;
+    transition: .15s;
+    height: 5px;
+    opacity: 0;
+    border-radius: 10px;
+    height: 100%;
+    background-color: rgba(101, 144, 236, .3);
+    transition: .15s;
+}
+
+.active__full__dropzone {
+    opacity: 1;
+    background-color: rgba(101, 144, 236, .3);
 }

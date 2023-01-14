@@ -40,6 +40,8 @@ function Editable(props) {
         triggerActive();
     }
 
+    const toggleEditingState = () => props.toggleEditingState(true);
+
     return active ? (
         <div className="editable">
             <form onSubmit={handleSubmit}>
@@ -55,7 +57,7 @@ function Editable(props) {
     ) : (
         <button
             className="bg-white py-2 w-full rounded-md shadow-lg cursor-pointer transition duration-300 hover:scale-105"
-            onClick={triggerActive}
+            onClick={toggleEditingState}
         >
             Add +
         </button>
