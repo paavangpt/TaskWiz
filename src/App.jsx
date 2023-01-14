@@ -10,7 +10,6 @@ import { getData } from "./Data/DataProvider";
 
 function App() {
     const [data, setData] = useState(getData());
-    const [editing, setEditing] = useState(false);
 
     // function changeData(card, boardId) {
     //     console.log(board);
@@ -48,13 +47,10 @@ function App() {
                     </button>
                 </div>
                 <div className="app__content">
-                    {
-                        editing ? <AddCard toggleEditingState={setEditing} ></AddCard> : ""
-                    }
                     {data.length == 0 ? (
                         <div className="empty__kanban__message">
-                            No Boards To Display. <br />
-                            Just create a new one to continue!
+                            <p>No Boards To Display. <br />
+                            Just create a new one to continue!</p>
                         </div>
                     ) : (
                         <div className="app__boards">
@@ -64,7 +60,6 @@ function App() {
                                         functions={{ changeBoardTitle }}
                                         key={board.id}
                                         data={board}
-                                        toggleEditingState={setEditing}
                                     />
                                 );
                             })}

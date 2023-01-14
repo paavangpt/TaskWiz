@@ -13,6 +13,7 @@ function Board(props) {
     const boardTitleInput = useRef();
 
     const [showDropDown, setShowDropDown] = useState(false);
+    const [editing, setEditing] = useState(false);
     const { data, setData } = useContext(DataContext);
 
     function toggleDropDown() {
@@ -33,6 +34,7 @@ function Board(props) {
 
     return (
         <div className="board" data-id={board.id}>
+            {editing ? <AddCard boardId={board.id} toggleEditingState={setEditing}></AddCard> : ""}
             <div className="board__top relative">
                 <h2 className="board__title">
                     <span
@@ -63,26 +65,38 @@ function Board(props) {
                 </div>
             </div>
             <div className="board__cards flex-1">
-                {
-                    board.cards.length == 0 ?
-                    <DropZone full={true} index={0} key={board.id + "dbz"}></DropZone> :
+                {board.cards.length == 0 ? (
+                    <DropZone
+                        full={true}
+                        index={0}
+                        key={board.id + "dbz"}
+                    ></DropZone>
+                ) : (
                     <DropZone index={0} key={board.id + "dbz"}></DropZone>
-                }
+                )}
                 {board.cards.map((card, index) => {
                     return (
-                        <div className="card__container" 
-                        key={card.id}>
-                            <Card
-                                boardId={board.id}
-                                data={card}
-                            ></Card>
-                            <DropZone full={(index == board.cards.length - 1) ? true : false } index={index+1} key={card.id + "dbz"}></DropZone>
+                        <div className="card__container" key={card.id}>
+                            <Card boardId={board.id} data={card}></Card>
+                            <DropZone
+                                full={
+                                    index == board.cards.length - 1
+                                        ? true
+                                        : false
+                                }
+                                index={index + 1}
+                                key={card.id + "dbz"}
+                            ></DropZone>
                         </div>
                     );
                 })}
             </div>
             <div className="board__footer">
-                <Editable toggleEditingState={props.toggleEditingState} changeData={props.changeData} boardId={board.id} />
+                <Editable
+                    toggleEditingState={setEditing}
+                    changeData={props.changeData}
+                    boardId={board.id}
+                />
             </div>
         </div>
     );

@@ -1,3 +1,7 @@
+.editable {
+    z-index: 20 !important;
+}
+
 .editable__svg__container {
     padding: 10px;
     background-color: #fff;

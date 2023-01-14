@@ -28,6 +28,16 @@ function Card(props) {
         setData([...data]);
     }
 
+    function cardTitleChanged(event) {
+        const board = data.find((board) => board.id == props.boardId);
+        board.cards.forEach((crd) => {
+            if (crd.id == card.id) {
+                crd.title = event.target.textContent;
+            }
+        });
+        setData([...data]);
+    }
+
     function dragStarted(event) {
         event.dataTransfer.setData(
             "text/plain",
@@ -45,22 +55,16 @@ function Card(props) {
             draggable="true"
             onDragStart={dragStarted}
         >
-            {card.title == "Learn ReactJS" ? (
-              <></>  
-              // <Modal>This is a modal</Modal>
-            ) : (
-                ""
-            )}
 
             <div className="card__top flex justify-between">
                 <div className="tags flex flex-wrap gap-1">
-                    {
-                        card.tags.length == 0 ?
-                        <Chip data = {{ title: "No Tags", color: "#eee"}} /> :
+                    {card.tags.length == 0 ? (
+                        <Chip data={{ title: "No Tags", color: "#eee" }} />
+                    ) : (
                         card.tags.map((tag, index) => {
                             return <Chip key={card.id + index} data={tag} />;
                         })
-                    }
+                    )}
                 </div>
                 <div className="card__top__more__btn relative">
                     <MoreHorizontal onClick={toggleDropDown} />
@@ -74,7 +78,14 @@ function Card(props) {
                 </div>
             </div>
             <div className="card__content">
-                <p className="card__content__title">{card.title}</p>
+                <p
+                    className="card__content__title hover:text-red-900"
+                    contentEditable
+                    suppressContentEditableWarning="true"
+                    onBlur={cardTitleChanged}
+                >
+                    {card.title}
+                </p>
             </div>
             <div className="card__bottom">
                 <span className="card__date flex place-items-center gap-2 text-xs bg-gray-200 w-fit px-4 py-1 rounded-xl">

@@ -18,6 +18,7 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 4px 20px rgba(203, 203, 203, 0.4);
+    max-width: 300px;
 }
 
 .add__card input {
@@ -89,4 +90,15 @@ input:hover {
 
 .add__card__cancel__btn:hover {
     background-color: #eee !important; 
+}
+
+#color-input {
+    width: 30px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+
+}
+
+.picker {
+    margin-top: 10px;
 }

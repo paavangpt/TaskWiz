@@ -1,0 +1,17 @@
+.add__card__chip {
+    font-size: 0.65em;
+    padding: 1px 10px;
+    width: fit-content;
+    border-radius: 50px;    
+    transition: 100ms;
+    /* border: 2px solid #00eeff; */
+    cursor: pointer;
+}
+
+.add__card__chip:hover {
+    border: 2px solid black;
+}
+
+.active__add__card__chip {
+    border: 2px solid black;
+}

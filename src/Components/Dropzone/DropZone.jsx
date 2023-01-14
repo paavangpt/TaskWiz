@@ -12,10 +12,12 @@ function DropZone(props) {
     const dropzone = useRef();
 
     function handleDragEnter() {
+        console.log("Entered");
         dropzone.current.classList.add(activeDropzoneClass);
     }
 
     function handleDragExit() {
+        console.log("Exited");
         dropzone.current.classList.remove(activeDropzoneClass);
     }
 
@@ -53,7 +55,7 @@ function DropZone(props) {
             className= {props.full ? "full__dropzone" : "dropzone"}
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
-            onDragExit={handleDragExit}
+            onDragLeave={handleDragExit}
             onDrop={handleDrop}
         >
 
