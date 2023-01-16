@@ -4,8 +4,10 @@ import { createContext } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
+import { Power } from "react-feather";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createBrowserRouter, useNavigate } from "react-router-dom";
+import uuid from "react-uuid";
 import "./App.css";
 import AddCard from "./Components/AddCard/AddCard";
 import Board from "./Components/Board/Board";
@@ -19,30 +21,29 @@ function App() {
     const [user, loading, error] = useAuthState(auth);
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         console.log("Use effect Triggered!");
         if (!user && !loading) {
             navigate("/login");
         }
         if (user) {
-            loadUserData(user.uid)
-                .then((res) => {
-                    const uData = res.docs;
-                    console.log(uData);
-                    setUserData(uData);
-                    loadData(user.uid).then((res) => {
-                        const resData = res.docs;
-                        console.log(resData[0].data().data);
-                        setDataDocRef(resData[0].id);
-                        // setData(getData().splice(0,2));
-                        setData([...resData[0].data().data]);
-                        // setDataDocRef(resData[0].)
-                    });
+            loadUserData(user.uid).then((res) => {
+                console.log("Loading user data");
+                const uData = res.docs[0];
+                setUserData(uData.data());
+                loadData(user.uid).then((res) => {
+                    const resData = res.docs;
+                    console.log(resData[0].data().data);
+                    setDataDocRef(resData[0].id);
+                    // setData(getData().splice(0,2));
+                    setData([...resData[0].data().data]);
+                    // setDataDocRef(resData[0].)
                 });
+            });
         }
         // loadData().then(data => {
-        //     setData(data);
+            //     setData(data);
         // });
     }, [user, loading]);
 
@@ -55,20 +56,29 @@ function App() {
     // }
 
     function addNewBoard() {
-        setData([
+        const boardId = uuid();
+        updateData(dataDocRef, [
             ...data,
             {
-                id: "board" + (data.length + 1),
+                id: boardId,
                 title: "New Board",
                 cards: [],
             },
         ]);
-        updateData(dataDocRef, [...data]);
+        setData([
+            ...data,
+            {
+                id: boardId,
+                title: "New Board",
+                cards: [],
+            },
+        ]);
+        console.log([...data]);
     }
-    
+
     // useEffect(() => {
     //     if(data) {
-            // updateData(dataDocRef, [...data]);
+    // updateData(dataDocRef, [...data]);
     //     }
     // }, [data]);
 
@@ -80,29 +90,35 @@ function App() {
         updateData(dataDocRef, [...data]);
     }
 
+
     if (user) {
         return (
-            <DataContext.Provider value={{  data, setData, dataDocRef }}>
+            <DataContext.Provider value={{ data, setData, dataDocRef }}>
                 <div className="app">
                     <div className="app__navbar">
                         <span id="title">TaskWiz</span>
                         <div className="app__navbar__end">
+                            {(user && userData) &&
+                                <span className="wish__user flex place-items-center">
+                                    Hello 👋, {userData.name}
+                                </span>}
                             {user && (
                                 <button
-                                    className="nav__sign__out__btn"
+                                    className="nav__sign__out__btn flex gap-2"
                                     onClick={(e) => {
                                         signOut(auth);
                                         localStorage.clear();
                                     }}
                                 >
                                     Sign Out
+                                    <Power width={15} className="flex place-items-center"/>
                                 </button>
                             )}
                             <button
                                 className="add__board__btn"
                                 onClick={addNewBoard}
                             >
-                                Add Board
+                                Add Board +
                             </button>
                         </div>
                     </div>

@@ -43,7 +43,7 @@ export const signInWithGoogle = () => {
 export const loadUserData = (uid) => {
     const q = query(
         collection(db, "users"),
-        where(" uid", "==", uid)
+        where("uid", "==", uid)
     );
     return getDocs(q);
 }
@@ -72,6 +72,9 @@ export const updateData = (ref, data) => {
     });
 }
 
+export const registerWithEmailAndPassword = async (name, email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+};
 /*
 import { initializeApp } from "firebase/app";
 import {
@@ -151,21 +154,7 @@ const sendPasswordReset = async (email) => {
     }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
-    try {
-        const res = await createUserWithEmailAndPassword(auth, email, password);
-        const user = res.user;
-        await addDoc(collection(db, "users"), {
-            uid: user.uid,
-            name,
-            authProvider: "local",
-            email,
-        });
-    } catch (err) {
-        console.error(err);
-        // alert(err.message);
-    }
-};
+
 
 const logInWithEmailAndPassword = async (email, password) => {
     try {

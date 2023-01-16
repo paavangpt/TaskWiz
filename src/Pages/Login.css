@@ -1,0 +1,83 @@
+.login__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login__form {
+    /* background-color: #21D4FD;
+background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%); */
+
+    /* color: white; */
+    font-weight: 500;
+    font-size: 1.5rem;
+    -webkit-border-radius: 50px;
+    border-radius: 10px;
+    -webkit-box-shadow: 12px 12px 24px #d9d9d9, -12px -12px 24px #ffffff;
+    box-shadow: 12px 12px 24px #d9d9d9, -12px -12px 24px #ffffff;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.login__input {
+    margin-block: 5px;
+    width: 300px;
+    padding: 15px;
+    border-radius: 5px;
+    -webkit-border-radius: 50px;
+    border-radius: 7px;
+    background: #ffffff;
+    -webkit-box-shadow: 12px 12px 24px #d9d9d9, -12px -12px 24px #ffffff;
+    box-shadow: 12px 12px 24px #d9d9d9, -12px -12px 24px #ffffff;
+    transition: .3s;
+    font-size: 1.2rem;
+}
+
+
+.form__btn {
+    font-size: 1.3rem;
+    margin: 5px;
+    background-image: linear-gradient(to bottom right, #2f78df, #2e12f3);
+    padding: 15px;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: .3s;
+}
+
+.form__btn:hover {
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
+}
+
+.form__btn1 {
+    margin-top: 50px;
+    border: 5px solid #2e12f3;
+    background: none;
+    background-color: transparent;
+    color: black;
+}
+
+.form__btn1:hover {
+    color: white;
+    background-color: #2e12f3;
+}   
+
+.intro__greeting {
+    margin-bottom: 20px;
+}
+
+.toggle__auth {
+    transition: .3s;
+}
+
+.toggle__auth:hover {
+    color: blue;
+}

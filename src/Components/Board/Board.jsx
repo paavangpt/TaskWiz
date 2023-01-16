@@ -13,6 +13,8 @@ function Board(props) {
     const board = props.data;
     const boardTitleInput = useRef();
 
+    console.log(board.id);
+
     const [showDropDown, setShowDropDown] = useState(false);
     const [editing, setEditing] = useState(false);
     const { data, setData, dataDocRef } = useContext(DataContext);
@@ -24,7 +26,7 @@ function Board(props) {
     function deleteBoard() {
         const newData = data.filter((brd) => brd.id != board.id);
         setData(newData);
-        updateData(dataDocRef, [...data]);
+        updateData(dataDocRef, newData);
     }
 
     let changeBoardTitle = () => {

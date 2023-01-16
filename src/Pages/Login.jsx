@@ -4,9 +4,11 @@ import "../Data/Firebase";
 import { auth, db, signInWithGoogle } from "../Data/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { getData } from "../Data/DataProvider";
+import { FaGoogle, FaSignInAlt } from 'react-icons/fa';
+import { LogIn } from "react-feather";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -16,6 +18,18 @@ const Login = () => {
     const navigate = useNavigate();
 
     // signOut(auth);
+
+    const handleLoginWithEmailAndPassword = (e) => {
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, email, password).then((res) => {
+            const usr = res.user;
+            if(!usr) {
+                alert("Not signed in Please try again.");
+                return;
+            }
+            navigate("/app");
+        })
+    }
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -55,7 +69,7 @@ const Login = () => {
         if (!user) {
             return;
         }
-        navigate("/");
+        navigate("/app");
     }, [user, loading]);
 
     return (
@@ -70,6 +84,7 @@ const Login = () => {
                 ""
             )}
             <form className="login__form flex flex-col">
+                <h3 className="intro__greeting">Welcome, Buddy 👋</h3>
                 <input
                     type="email"
                     onChange={(e) => setEmail(e.target.value)}
@@ -86,16 +101,19 @@ const Login = () => {
                 />
                 <button
                     type="submit"
-                    className="login__btn"
-                    onClick={() => {
-                        logInWithEmailAndPassword(email, password);
-                    }}
+                    className="login__btn form__btn form__btn1 flex gap-3"
+                    onClick={handleLoginWithEmailAndPassword}
                 >
                     Login
+                    <FaSignInAlt />
                 </button>
-                <button className="login__btn__google" onClick={handleLogin}>
-                    Sign in Google
+                <button className="login__btn__google form__btn flex gap-3 place-items-center" onClick={handleLogin}>
+                    Sign in with Google
+                    <FaGoogle/>
                 </button>
+                <button className="toggle__auth text-sm mt-5" onClick={e => {
+                    navigate("/register");
+                }}>New Task Wizard ?<br />Click here to Register!</button>
             </form>
         </div>
     );

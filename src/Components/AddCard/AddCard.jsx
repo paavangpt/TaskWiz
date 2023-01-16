@@ -6,6 +6,7 @@ import "./AddCard.css";
 import AddCardChip from "./AddCardChip";
 import { SketchPicker, SliderPicker, TwitterPicker } from "react-color";
 import { updateData } from "../../Data/Firebase";
+import { dateCreator } from "../../Data/DataProvider";
 
 function AddCard(props) {
     const [tags, setTags] = useState([]);
@@ -102,7 +103,7 @@ function AddCard(props) {
         board.cards.push({
             id: Date.now().toString(),
             title: title,
-            date: new Date(),
+            date: dateCreator(),
             status: "On Going",
             tags: tags,
         });
