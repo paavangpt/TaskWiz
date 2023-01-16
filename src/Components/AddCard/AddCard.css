@@ -19,6 +19,7 @@
     border-radius: 5px;
     box-shadow: 0 4px 20px rgba(203, 203, 203, 0.4);
     max-width: 300px;
+    gap: 10px;
 }
 
 .add__card input {

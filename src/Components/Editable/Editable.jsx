@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { X } from "react-feather";
 import  DataContext from "../../Contexts/DataContext";
+import { updateData } from "../../Data/Firebase";
 import "./Editable.css";
 
 function Editable(props) {
     const [active, setActive] = useState(false);
     const [input, setInput] = useState("");
 
-    const { data, setData } = useContext(DataContext);
+    const { data, setData, dataDocRef } = useContext(DataContext);
 
     function updateInput(event) {
         setInput(event.target.value);
@@ -34,6 +35,7 @@ function Editable(props) {
             ],
         });
         setData([...data]);
+        updateData(dataDocRef, [...data]);
 
         console.log(input);
         setInput("");

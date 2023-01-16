@@ -1,3 +1,18 @@
+const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+];
+
 const BOARDS_AND_CARDS = [
     {
         id: "board1",
@@ -6,36 +21,36 @@ const BOARDS_AND_CARDS = [
             {
                 id: "234514",
                 title: "Write a blog",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Work",
-                        color: "cyan",
+                        color: "#fcb900",
                     },
                     {
                         title: "Learning",
-                        color: "blueviolet",
+                        color: "#f78da7",
                     },
                     {
                         title: "Span",
-                        color: "yellow",
+                        color: "#8ed1fc",
                     },
                 ],
             },
             {
                 id: "4352345",
                 title: "Make a youtube video",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Learning",
-                        color: "blueviolet",
+                        color: "#8ed1fc",
                     },
                     {
                         title: "Research",
-                        color: "pink",
+                        color: "#f78da7",
                     },
                 ],
             },
@@ -48,12 +63,12 @@ const BOARDS_AND_CARDS = [
             {
                 id: "1452435",
                 title: "Learn ReactJS",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Learning",
-                        color: "blueviolet",
+                        color: "#f78da7",
                     },
                 ],
             },
@@ -66,48 +81,48 @@ const BOARDS_AND_CARDS = [
             {
                 id: "66789",
                 title: "Spring Boot",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Work",
-                        color: "cyan",
+                        color: "#f78da7",
                     },
                     {
                         title: "Learning",
-                        color: "blueviolet",
+                        color: "#8ed1fc",
                     },
                 ],
             },
             {
                 id: "57865",
                 title: "Learn SQL Database",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Work",
-                        color: "cyan",
+                        color: "#f78da7",
                     },
                     {
                         title: "Learning",
-                        color: "blueviolet",
+                        color: "#8ed1fc",
                     },
                     {
                         title: "Learning",
-                        color: "pink",
+                        color: "#fcb900",
                     },
                 ],
             },
             {
                 id: "896895",
                 title: "Learn River Flows in You",
-                date: new Date(),
+                date: dateCreator(),
                 status: "On Going",
                 tags: [
                     {
                         title: "Learning",
-                        color: "cyan",
+                        color: "#fcb900",
                     },
                 ],
             },
@@ -137,10 +152,7 @@ export function getData() {
     return BOARDS_AND_CARDS;
 }
 
-const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-
-export function dateCreator(date) {
-    return date.getDate() +  " " + months[date.getMonth()];
+export function dateCreator() {
+    const date = new Date();
+    return (date.getDate() + " " + months[date.getMonth()]).toString();
 }

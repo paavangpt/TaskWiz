@@ -5,6 +5,7 @@ import Chip from "../Chip/Chip";
 import "./AddCard.css";
 import AddCardChip from "./AddCardChip";
 import { SketchPicker, SliderPicker, TwitterPicker } from "react-color";
+import { updateData } from "../../Data/Firebase";
 
 function AddCard(props) {
     const [tags, setTags] = useState([]);
@@ -32,7 +33,7 @@ function AddCard(props) {
         };
     });
 
-    const { data, setData } = useContext(DataContext);
+    const { data, setData, dataDocRef } = useContext(DataContext);
 
     function toggleEditingState(event) {
         if (addCardRef) {
@@ -82,6 +83,11 @@ function AddCard(props) {
         setTags([...tags]);
     }
 
+    function deleteTag(tag) {
+        tags.splice(tags.indexOf(tag), 1);
+        setTags([...tags]);
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
         let title = titleInputRef.current.value;
@@ -100,11 +106,13 @@ function AddCard(props) {
             status: "On Going",
             tags: tags,
         });
+        console.log("About to error!");
         setData([...data]);
+        updateData(dataDocRef, [...data]);
+        console.log(data);
+        console.log("Oh de error!");
 
         props.toggleEditingState(false);
-
-        console.log("Submit hua re baba!");
         // setInput("");
         // triggerActive();
     }
@@ -137,6 +145,7 @@ function AddCard(props) {
                         tags.map((tag, index) => {
                         return (
                             <AddCardChip
+                                deleteTag={deleteTag}
                                 index={index}
                                 isActive={index==activeTag}
                                 setActive={setActiveTag}

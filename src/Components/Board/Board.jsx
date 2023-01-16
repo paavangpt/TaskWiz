@@ -7,6 +7,7 @@ import Editable from "../Editable/Editable";
 import DropZone from "../Dropzone/DropZone";
 import "./Board.css";
 import AddCard from "../AddCard/AddCard";
+import { updateData } from "../../Data/Firebase";
 
 function Board(props) {
     const board = props.data;
@@ -14,7 +15,7 @@ function Board(props) {
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [editing, setEditing] = useState(false);
-    const { data, setData } = useContext(DataContext);
+    const { data, setData, dataDocRef } = useContext(DataContext);
 
     function toggleDropDown() {
         setShowDropDown(!showDropDown);
@@ -23,6 +24,7 @@ function Board(props) {
     function deleteBoard() {
         const newData = data.filter((brd) => brd.id != board.id);
         setData(newData);
+        updateData(dataDocRef, [...data]);
     }
 
     let changeBoardTitle = () => {

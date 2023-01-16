@@ -15,6 +15,12 @@ function AddCardChip(props) {
         <div
             className={"add__card__chip " + (props.isActive ? "active__add__card__chip" : "") + " text-xs flex place-items-center"}
             onClick={onClickHandler}
+            onDoubleClick={e => {
+                const check = confirm("Are you sure you want to delete this tag?");
+                if(check) {
+                    props.deleteTag(tag);
+                }
+            }}
             style={{padding:props.padding || "1px 10px" , backgroundColor: tag.color || "#04e9f1", fontSize: props.fontSize || "0.65em" }}
         >
             {tag.title}

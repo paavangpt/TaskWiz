@@ -6,11 +6,12 @@ import { dateCreator } from "../../Data/DataProvider";
 import DataContext from "../../Contexts/DataContext";
 import Dropdown from "../Dropdown/Dropdown";
 import Modal from "../Modal/Modal";
+import { updateData } from "../../Data/Firebase";
 
 function Card(props) {
     const [showDropDown, setShowDropDown] = useState(false);
     const [editing, setEditing] = useState(true);
-    const { data, setData } = useContext(DataContext);
+    const { data, setData, dataDocRef } = useContext(DataContext);
     const card = props.data;
 
     function toggleDropDown() {
@@ -26,6 +27,7 @@ function Card(props) {
         // })
         board.cards = board.cards.filter((crd) => crd.id != card.id);
         setData([...data]);
+        updateData(dataDocRef, [...data]);
     }
 
     function cardTitleChanged(event) {
@@ -36,6 +38,7 @@ function Card(props) {
             }
         });
         setData([...data]);
+        updateData(dataDocRef, [...data]);
     }
 
     function dragStarted(event) {
@@ -90,7 +93,7 @@ function Card(props) {
             <div className="card__bottom">
                 <span className="card__date flex place-items-center gap-2 text-xs bg-gray-200 w-fit px-4 py-1 rounded-xl">
                     <Clock className="w-3 h-3" />
-                    {dateCreator(card.date)}
+                    {card.date}
                 </span>
             </div>
         </div>
