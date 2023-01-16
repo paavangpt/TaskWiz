@@ -1,0 +1,36 @@
+.nav {
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 70px;
+    width: 100%;
+    box-shadow: 0px 10px 25px rgba(77, 114, 234, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 40px;
+}
+
+.nav__logo {
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav__btn {
+    padding: 7px 20px;
+    border-radius: 7px;
+    transition: 0.3s;
+    font-size: 1.15em;
+
+    /* background-color: #fff; */
+
+    background-color: #6161e7;
+    color: white;
+}
+
+.nav__btn:hover {
+    box-shadow: 0px 10px 25px rgba(77, 114, 234, 0.6);
+    background-color: #fff;
+    color: black;
+}

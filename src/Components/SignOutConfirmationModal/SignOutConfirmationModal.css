@@ -1,0 +1,47 @@
+.signing__out__confirmation__container {
+    z-index: 1;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.signing__out__confirmation__container p {
+    font-size: 1.6em;
+    padding: 10px 20px;
+    background-color: rgba(106, 146, 255, .2);
+    border-radius: 7px;
+}
+
+.signing__out__btn {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 7px;
+    min-width: 110px;
+    margin-top: 20px;
+    opacity: 1;
+    transition: .3s;
+}
+
+.signing__out__btn__yes {
+    background-color: rgba(77, 106, 249, 1);
+    color: white;
+    box-shadow: 0px 10px 20px #ccc;
+}
+
+.signing__out__btn__cancel {
+    background-color: rgba(255, 255, 255, 1);
+    color: black;
+    box-shadow: 0px 10px 20px #ccc;
+}
+
+.signing__out__btn__yes:hover {
+    background-color: rgba(14, 54, 250, 0.9);
+}
+
+.signing__out__btn__cancel:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+

@@ -22,7 +22,6 @@ const BOARDS_AND_CARDS = [
                 id: "234514",
                 title: "Write a blog",
                 date: dateCreator(),
-                status: "On Going",
                 tags: [
                     {
                         title: "Work",
@@ -33,7 +32,7 @@ const BOARDS_AND_CARDS = [
                         color: "#f78da7",
                     },
                     {
-                        title: "Span",
+                        title: "Blog",
                         color: "#8ed1fc",
                     },
                 ],
@@ -42,10 +41,9 @@ const BOARDS_AND_CARDS = [
                 id: "4352345",
                 title: "Make a youtube video",
                 date: dateCreator(),
-                status: "On Going",
-                tags: [
+                                tags: [
                     {
-                        title: "Learning",
+                        title: "Work",
                         color: "#8ed1fc",
                     },
                     {
@@ -62,10 +60,9 @@ const BOARDS_AND_CARDS = [
         cards: [
             {
                 id: "1452435",
-                title: "Learn ReactJS",
+                title: "Learn to Play Guitar",
                 date: dateCreator(),
-                status: "On Going",
-                tags: [
+                                tags: [
                     {
                         title: "Learning",
                         color: "#f78da7",
@@ -80,48 +77,49 @@ const BOARDS_AND_CARDS = [
         cards: [
             {
                 id: "66789",
-                title: "Spring Boot",
+                title: "Submit Leave Application",
                 date: dateCreator(),
-                status: "On Going",
-                tags: [
+                                tags: [
                     {
                         title: "Work",
                         color: "#f78da7",
                     },
                     {
-                        title: "Learning",
+                        title: "Life",
                         color: "#8ed1fc",
                     },
                 ],
             },
             {
                 id: "57865",
-                title: "Learn SQL Database",
+                title: "Play Badminton 🏸",
                 date: dateCreator(),
-                status: "On Going",
-                tags: [
+                                tags: [
                     {
-                        title: "Work",
+                        title: "Sports",
                         color: "#f78da7",
                     },
                     {
-                        title: "Learning",
+                        title: "Health",
                         color: "#8ed1fc",
                     },
                     {
-                        title: "Learning",
+                        title: "Workout",
                         color: "#fcb900",
                     },
                 ],
             },
             {
                 id: "896895",
-                title: "Learn River Flows in You",
+                title: "Complete a book",
                 date: dateCreator(),
-                status: "On Going",
-                tags: [
+                                tags: [
                     {
                         title: "Learning",
+                        color: "#fcb900",
+                    },
+                    {
+                        title: "Life",
                         color: "#fcb900",
                     },
                 ],
@@ -130,8 +128,7 @@ const BOARDS_AND_CARDS = [
             //     id: "896895",
             //     title: "Learn River Flows in You",
             //     date: new Date(),
-            //     status: "On Going",
-            //     tags: [
+            //                 //     tags: [
             //         "Work"
             //     ]
             // },
@@ -139,8 +136,7 @@ const BOARDS_AND_CARDS = [
             //     id: "896895",
             //     title: "Learn River Flows in You",
             //     date: new Date(),
-            //     status: "On Going",
-            //     tags: [
+            //                 //     tags: [
             //         "Work"
             //     ]
             // }

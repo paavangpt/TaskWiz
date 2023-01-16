@@ -5,6 +5,7 @@ import image from "../../assets/800w/Asset1.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./HomePage.css";
 import { auth } from "../../Data/Firebase";
+import Navbar from "../../Components/Navbar/Navbar";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const HomePage = () => {
         if (!user) {
             return;
         }
-        // navigate("/app");
+        navigate("/app");
     }, [user, loading]);
 
     return loading ? (
@@ -24,36 +25,12 @@ const HomePage = () => {
     ) : (
         <div className="home__container w-full h-full flex place-items-center">
             <div className="header w-full h-full mx-20 flex place-items-center px-40 ">
-                <nav className="nav">
-                    <div className="nav__left">
-                        <h2 className="nav__logo">TaskWiz</h2>
-                    </div>
-                    <div className="nav__right flex gap-3">
-                        <button
-                            className="nav__btn"
-                            onClick={() => {
-                                navigate("/login");
-                            }}
-                        >
-                            Login
-                        </button>
-                        <button
-                            className="nav__btn"
-                            onClick={() => {
-                                navigate("/register");
-                            }}
-                        >
-                            Create Account
-                        </button>
-                    </div>
-                </nav>
+                <Navbar />
                 <div className="header__left">
-                    <h2>Manage your task with simplicity</h2>
+                    <h2>Manage your tasks with simplicity, <span className="header__title__span">with TaskWiz 🔥</span></h2>
                     <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Adipisci architecto, vitae facere repellat
-                        inventore, aut tempore officia nesciunt animi earum.
-                    </p>
+                        Do you also get irritated when managing multiple tasks 🎯 throughout your day becomes a mess. Well, We've brought you the <i><b>"MESSI"</b></i> of managing task. Let's Go 
+                        </p>
                     <button
                         className="header__btn__get__started  flex place-items-center gap-3"
                         onClick={(e) => {

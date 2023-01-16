@@ -11,6 +11,8 @@ import uuid from "react-uuid";
 import "./App.css";
 import AddCard from "./Components/AddCard/AddCard";
 import Board from "./Components/Board/Board";
+import Modal from "./Components/Modal/Modal";
+import SignOutConfirmationModal from "./Components/SignOutConfirmationModal/SignOutConfirmationModal";
 import DataContext from "./Contexts/DataContext";
 import { getData } from "./Data/DataProvider";
 import { auth, loadData, loadUserData, updateData } from "./Data/Firebase";
@@ -21,11 +23,13 @@ function App() {
     const [user, loading, error] = useAuthState(auth);
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
-    
+
+    const [isSigningOut, setIsSigningOut] = useState(false);
+
     useEffect(() => {
         console.log("Use effect Triggered!");
         if (!user && !loading) {
-            navigate("/login");
+            navigate("/");
         }
         if (user) {
             loadUserData(user.uid).then((res) => {
@@ -43,7 +47,7 @@ function App() {
             });
         }
         // loadData().then(data => {
-            //     setData(data);
+        //     setData(data);
         // });
     }, [user, loading]);
 
@@ -90,28 +94,36 @@ function App() {
         updateData(dataDocRef, [...data]);
     }
 
-
     if (user) {
         return (
             <DataContext.Provider value={{ data, setData, dataDocRef }}>
+                {isSigningOut && (
+                    <Modal>
+                        <SignOutConfirmationModal setIsSigningOut={setIsSigningOut} />
+                    </Modal>
+                )}
                 <div className="app">
                     <div className="app__navbar">
                         <span id="title">TaskWiz</span>
                         <div className="app__navbar__end">
-                            {(user && userData) &&
+                            {user && userData && (
                                 <span className="wish__user flex place-items-center">
                                     Hello 👋, {userData.name}
-                                </span>}
+                                </span>
+                            )}
                             {user && (
                                 <button
                                     className="nav__sign__out__btn flex gap-2"
                                     onClick={(e) => {
-                                        signOut(auth);
+                                        setIsSigningOut(true);
                                         localStorage.clear();
                                     }}
                                 >
                                     Sign Out
-                                    <Power width={15} className="flex place-items-center"/>
+                                    <Power
+                                        width={15}
+                                        className="flex place-items-center"
+                                    />
                                 </button>
                             )}
                             <button

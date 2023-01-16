@@ -13,7 +13,7 @@ function AddCard(props) {
     const addCardRef = useRef();
     const titleInputRef = useRef();
     const tagInputRef = useRef();
-    const [activeTag, setActiveTag] = useState(null);
+    const [activeTag, setActiveTag] = useState(0);
 
     function handleOutsideEvent(event) {
         if (addCardRef) {
