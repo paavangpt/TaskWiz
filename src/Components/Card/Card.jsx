@@ -7,6 +7,7 @@ import DataContext from "../../Contexts/DataContext";
 import Dropdown from "../Dropdown/Dropdown";
 import Modal from "../Modal/Modal";
 import { updateData } from "../../Data/Firebase";
+import { motion } from "framer-motion";
 
 function Card(props) {
     const [showDropDown, setShowDropDown] = useState(false);
@@ -53,12 +54,22 @@ function Card(props) {
     }
 
     return (
-        <div
+        <motion.div
+            transition={{ duration: 0.1 }}
+            whileDrag={{ scale: 1.1 }}
             className="card flex-col gap-4 p-2 bg-white cursor-pointer shadow-lg"
             draggable="true"
             onDragStart={dragStarted}
+            layout
+            // drag
+            // drag
+            // dragConstraints = {{
+            //     top: -10,
+            //     left: -10,
+            //     bottom: 10,
+            //     right: 10
+            // }}
         >
-
             <div className="card__top flex justify-between">
                 <div className="tags flex flex-wrap gap-1">
                     {card.tags.length == 0 ? (
@@ -96,7 +107,7 @@ function Card(props) {
                     {card.date}
                 </span>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

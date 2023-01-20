@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
-import "../Data/Firebase";
-import { auth, db, signInWithGoogle } from "../Data/Firebase";
+import { auth, db, signInWithGoogle } from "../../Data/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { getData } from "../Data/DataProvider";
+import { getData } from "../../Data/DataProvider";
 import { FaGoogle, FaSignInAlt } from 'react-icons/fa';
 import { LogIn } from "react-feather";
 

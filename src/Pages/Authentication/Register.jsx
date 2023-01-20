@@ -4,8 +4,9 @@ import { User } from "react-feather";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaGoogle, FaRegistered, FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getData } from "../Data/DataProvider";
-import { auth, db, registerWithEmailAndPassword } from "../Data/Firebase";
+// import { getData } from "../Data/DataProvider";
+import { getData } from "../../Data/DataProvider";
+import { auth, db, registerWithEmailAndPassword } from "../../Data/Firebase";
 import "./Register.css";
 // import {
 //   auth,

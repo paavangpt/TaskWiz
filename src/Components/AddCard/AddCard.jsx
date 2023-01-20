@@ -7,6 +7,7 @@ import AddCardChip from "./AddCardChip";
 import { SketchPicker, SliderPicker, TwitterPicker } from "react-color";
 import { updateData } from "../../Data/Firebase";
 import { dateCreator } from "../../Data/DataProvider";
+import { motion, AnimatePresence } from "framer-motion";
 
 function AddCard(props) {
     const [tags, setTags] = useState([]);
@@ -57,7 +58,9 @@ function AddCard(props) {
 
     function handleTagInput(event) {
         if (event.keyCode == 13) {
-            console.log("something something hello hunny bunny");
+            if(!tagInputRef.current.value) {
+                return;
+            }
             event.preventDefault();
             setTags([
                 ...tags,
@@ -94,7 +97,7 @@ function AddCard(props) {
         let title = titleInputRef.current.value;
         let tagInput = tagInputRef.current.value;
 
-        if(!title) {
+        if (!title) {
             alert("Please enter a valid title");
             return;
         }
@@ -119,63 +122,72 @@ function AddCard(props) {
     }
 
     return (
-        <div className="add__card__backdrop" onClick={toggleEditingState}>
-            <form
-                className="add__card"
-                onSubmit={handleSubmit}
-                ref={addCardRef}
-            >
-                <input
-                    ref={titleInputRef}
-                    type="text"
-                    className="add__card__title__input"
-                    placeholder="Enter Title..."
-                    onKeyDown={handleTitleInput}
-                />
-                <input
-                    ref={tagInputRef}
-                    type="text"
-                    className="add__card__tag__input"
-                    placeholder="Enter Tags"
-                    onKeyDown={handleTagInput}
-                />
-                <div className="add__card__tags flex flex-wrap gap-2">
-                    {
-                        tags.length == 0 ?
-                        <span>Add some tags!</span> :
-                        tags.map((tag, index) => {
-                        return (
-                            <AddCardChip
-                                deleteTag={deleteTag}
-                                index={index}
-                                isActive={index==activeTag}
-                                setActive={setActiveTag}
-                                padding={"10px"}
-                                fontSize={".8em"}
-                                key={index}
-                                data={tag}
+        <AnimatePresence>
+            <motion.div 
+            className="add__card__backdrop" onClick={toggleEditingState}>
+                <motion.form
+                    initial={{ scale: .2 }}
+                    animate={{ scale: 1, opacity: 1, animationTimingFunction: "ease-in-out" }}
+                    exit={{ scale: .2 }}
+                    transition={{duration: .1, type: "spring", stiffness: 130}}
+                    className="add__card"
+                    onSubmit={handleSubmit}
+                    ref={addCardRef}
+                >
+                    <input
+                        ref={titleInputRef}
+                        type="text"
+                        className="add__card__title__input"
+                        placeholder="Enter Title..."
+                        onKeyDown={handleTitleInput}
+                    />
+                    <input
+                        ref={tagInputRef}
+                        type="text"
+                        className="add__card__tag__input"
+                        placeholder="Enter Tags"
+                        onKeyDown={handleTagInput}
+                    />
+                    <div className="add__card__tags flex flex-wrap gap-2">
+                        {tags.length == 0 ? (
+                            <span>Add some tags!</span>
+                        ) : (
+                            tags.map((tag, index) => {
+                                return (
+                                    <AddCardChip
+                                        deleteTag={deleteTag}
+                                        index={index}
+                                        isActive={index == activeTag}
+                                        setActive={setActiveTag}
+                                        padding={"10px"}
+                                        fontSize={".8em"}
+                                        key={index}
+                                        data={tag}
+                                    />
+                                );
+                            })
+                        )}
+                        <br />
+                        <div className="picker">
+                            <TwitterPicker
+                                onChangeComplete={colorChangeHandler}
                             />
-                        );
-                    })
-                }
-                    <br />
-                    <div className="picker">
-                        <TwitterPicker onChangeComplete={colorChangeHandler} />
+                        </div>
                     </div>
-                </div>
-                <div className="add__card__footer">
-                    <button className="add__card__btn" type="submit">
-                        Add Card
-                    </button>
-                    <button
-                        className="add__card__cancel__btn"
-                        onClick={toggleEditingState}
-                    >
-                        <X />
-                    </button>
-                </div>
-            </form>
-        </div>
+                    <div className="add__card__footer">
+                        <button className="add__card__btn" type="submit">
+                            Add Card
+                        </button>
+                        <button
+                            className="add__card__cancel__btn"
+                            onClick={toggleEditingState}
+                        >
+                            <X />
+                        </button>
+                    </div>
+                </motion.form>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 

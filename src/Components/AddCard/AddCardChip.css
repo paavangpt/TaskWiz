@@ -6,6 +6,7 @@
     transition: 100ms;
     /* border: 2px solid #00eeff; */
     cursor: pointer;
+    min-height: 25px;
 }
 
 .add__card__chip:hover {

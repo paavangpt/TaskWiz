@@ -8,6 +8,7 @@ import DropZone from "../Dropzone/DropZone";
 import "./Board.css";
 import AddCard from "../AddCard/AddCard";
 import { updateData } from "../../Data/Firebase";
+import { motion, AnimatePresence, animate } from "framer-motion";
 
 function Board(props) {
     const board = props.data;
@@ -36,9 +37,55 @@ function Board(props) {
         );
     };
 
+    // Variants
+
+    const boardVariants = {
+        initial: {
+            opacity: 0,
+            scale: 0.9,
+        },
+        animated: {
+            scale: 1,
+            opacity: 1,
+        }
+    };
+
     return (
-        <div className="board" data-id={board.id}>
-            {editing ? <AddCard boardId={board.id} toggleEditingState={setEditing}></AddCard> : ""}
+        <motion.div
+            transition={{ duration: 0.6, type: "spring" }}
+            style={{
+                zIndex: editing ? 30 : 10,
+            }}
+            key={props.key}
+            // ----------------- Scale -------------------
+            // initial={{ scaleX: 0, opacity: 0, transformOrigin: "left" }}
+            // animate={{ scaleX: 1, opacity: 1 }}
+            // exit={{ scaleX: 0, opacity: 0 }}
+
+            // ----------------- Opacity -------------------
+            variants = {boardVariants}
+            // initial="initial"
+            // animate="animated"
+            exit={{
+                scale: 0.9,
+                opacity: 0,
+            }}
+            // ----------------- Top to down fall -------------------
+            // initial={{ translateY: "-100vh", opacity: 0 }}
+            // animate={{ translateY: "0vh", opacity: 1 }}
+            // exit={{ translateY: "-100vh", opacity: 0 }}
+
+            className="board"
+            data-id={board.id}
+        >
+            {editing ? (
+                <AddCard
+                    boardId={board.id}
+                    toggleEditingState={setEditing}
+                ></AddCard>
+            ) : (
+                ""
+            )}
             <div className="board__top relative">
                 <h2 className="board__title">
                     <span
@@ -68,7 +115,7 @@ function Board(props) {
                     )}
                 </div>
             </div>
-            <div className="board__cards flex-1">
+            <motion.div className="board__cards flex-1" layout>
                 {board.cards.length == 0 ? (
                     <DropZone
                         full={true}
@@ -94,7 +141,7 @@ function Board(props) {
                         </div>
                     );
                 })}
-            </div>
+            </motion.div>
             <div className="board__footer">
                 <Editable
                     toggleEditingState={setEditing}
@@ -102,7 +149,7 @@ function Board(props) {
                     boardId={board.id}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 }
 

@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth";
 import { updateDoc } from "firebase/firestore";
-import { createContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { createContext, useRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
@@ -25,6 +26,16 @@ function App() {
     const navigate = useNavigate();
 
     const [isSigningOut, setIsSigningOut] = useState(false);
+
+    const appBoardVariants = {
+        animated: {
+            transition: {
+                delayChildren: 2,
+                when: "beforeChildren",
+                staggerChildren: 0.5,
+            },
+        },
+    };
 
     useEffect(() => {
         console.log("Use effect Triggered!");
@@ -99,64 +110,78 @@ function App() {
             <DataContext.Provider value={{ data, setData, dataDocRef }}>
                 {isSigningOut && (
                     <Modal>
-                        <SignOutConfirmationModal setIsSigningOut={setIsSigningOut} />
+                        <SignOutConfirmationModal
+                            setIsSigningOut={setIsSigningOut}
+                        />
                     </Modal>
                 )}
-                <div className="app">
-                    <div className="app__navbar">
-                        <span id="title">TaskWiz</span>
-                        <div className="app__navbar__end">
-                            {user && userData && (
-                                <span className="wish__user flex place-items-center">
-                                    Hello 👋, {userData.name}
-                                </span>
-                            )}
-                            {user && (
-                                <button
-                                    className="nav__sign__out__btn flex gap-2"
-                                    onClick={(e) => {
-                                        setIsSigningOut(true);
-                                        localStorage.clear();
-                                    }}
+                <AnimatePresence>
+                    <div className="app">
+                        <div className="app__navbar">
+                            <span id="title">TaskWiz</span>
+                            <div className="app__navbar__end">
+                                {user && userData && (
+                                    <span className="wish__user flex place-items-center">
+                                        Hello 👋, {userData.name}
+                                    </span>
+                                )}
+                                {user && (
+                                    <button
+                                        className="nav__sign__out__btn flex gap-2"
+                                        onClick={(e) => {
+                                            setIsSigningOut(true);
+                                            localStorage.clear();
+                                        }}
+                                    >
+                                        Sign Out
+                                        <Power
+                                            width={15}
+                                            className="flex place-items-center"
+                                        />
+                                    </button>
+                                )}
+                                <motion.button
+                                    whileTap={{ scale: 0.3 }}
+                                    className="add__board__btn"
+                                    onClick={addNewBoard}
                                 >
-                                    Sign Out
-                                    <Power
-                                        width={15}
-                                        className="flex place-items-center"
-                                    />
-                                </button>
+                                    Add Board +
+                                </motion.button>
+                            </div>
+                        </div>
+                        <div className="app__content">
+                            {data.length == 0 ? (
+                                <div className="empty__kanban__message">
+                                    <p>
+                                        No Boards To Display. <br />
+                                        Just create a new one to continue!
+                                    </p>
+                                </div>
+                            ) : (
+                                <motion.div
+                                    variants={appBoardVariants}
+                                    animate="animated"
+                                    className="app__boards"
+                                >
+                                    <AnimatePresence>
+                                        {data.map((board, index) => {
+                                            return (
+                                                <Board
+                                                    functions={{
+                                                        changeBoardTitle,
+                                                    }}
+                                                    key={board.id}
+                                                    data={board}
+                                                    index={index}
+                                                />
+                                            );
+                                        })}
+                                    </AnimatePresence>
+                                </motion.div>
                             )}
-                            <button
-                                className="add__board__btn"
-                                onClick={addNewBoard}
-                            >
-                                Add Board +
-                            </button>
                         </div>
                     </div>
-                    <div className="app__content">
-                        {data.length == 0 ? (
-                            <div className="empty__kanban__message">
-                                <p>
-                                    No Boards To Display. <br />
-                                    Just create a new one to continue!
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="app__boards">
-                                {data.map((board) => {
-                                    return (
-                                        <Board
-                                            functions={{ changeBoardTitle }}
-                                            key={board.id}
-                                            data={board}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
-                </div>
+                </AnimatePresence>
             </DataContext.Provider>
         );
     } else if (loading) {

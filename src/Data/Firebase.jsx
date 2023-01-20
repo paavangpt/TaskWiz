@@ -38,39 +38,39 @@ export const db = getFirestore(app);
 const authProvider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
     return signInWithPopup(auth, authProvider);
-}
+};
 
 export const loadUserData = (uid) => {
-    const q = query(
-        collection(db, "users"),
-        where("uid", "==", uid)
+    console.log(
+        "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\nData Reading\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     );
+    const q = query(collection(db, "users"), where("uid", "==", uid));
     return getDocs(q);
-}
+};
 
 export const loadData = (uid) => {
-    const q = query(
-        collection(db, "data"),
-        where("uid", "==", uid)
-    )
+    console.log(
+        "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\nData Reading\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    );
+    const q = query(collection(db, "data"), where("uid", "==", uid));
     return getDocs(q);
-}
+};
 
 export const updateData = (ref, data) => {
     console.log("Updating....");
     const docRef = doc(db, "data", ref);
     updateDoc(docRef, {
-        data: data
+        data: data,
     })
-        .then(res => {
+        .then((res) => {
             console.log("Data Updated!");
             console.log(res);
         })
-        .catch(err => {
-        console.log("Some error occured!");
-        console.log(err);
-    });
-}
+        .catch((err) => {
+            console.log("Some error occured!");
+            console.log(err);
+        });
+};
 
 export const registerWithEmailAndPassword = async (name, email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
