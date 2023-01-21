@@ -11,6 +11,7 @@ function DropZone(props) {
     const activeDropzoneClass = props.full ? "active__full__dropzone" : "active__dropzone";
 
     const dropzone = useRef();
+    console.log(" is full : " + props.full);
 
     function handleDragEnter() {
         console.log("Entered");
@@ -44,6 +45,7 @@ function DropZone(props) {
         }
         
         sourceBoard.cards = sourceBoard.cards.filter(crd => crd.id != cardData.id);
+        delete cardData.sourceBoardId;
         targetBoard.cards.splice(props.index, 0, cardData);
         setData([...data]);
         updateData(dataDocRef, [...data]);

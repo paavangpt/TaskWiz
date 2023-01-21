@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MoreHorizontal } from "react-feather";
 import DataContext from "../../Contexts/DataContext";
 import Card from "../Card/Card";
@@ -13,12 +13,20 @@ import { motion, AnimatePresence, animate } from "framer-motion";
 function Board(props) {
     const board = props.data;
     const boardTitleInput = useRef();
-
-    console.log(board.id);
+    const boardRef = useRef();
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [editing, setEditing] = useState(false);
     const { data, setData, dataDocRef } = useContext(DataContext);
+
+    useEffect(() => {
+        if (editing) {
+            boardRef.current.parentElement.style.zIndex = 30;
+            return;
+        }
+        boardRef.current.parentElement.style.zIndex = 10;
+        console.log("\n\nEffected\n\n");
+    }, [editing]);
 
     function toggleDropDown() {
         setShowDropDown(!showDropDown);
@@ -52,14 +60,11 @@ function Board(props) {
     //         },
     //     },
     // };
-    
 
     return (
         <motion.div
-            style={{
-                zIndex: editing ? 30 : 10,
-            }}
-            key={props.key}
+            ref={boardRef}
+            // key={props.key}
             // ----------------- Scale -------------------
             // initial={{ scaleX: 0, opacity: 0, transformOrigin: "left" }}
             // animate={{ scaleX: 1, opacity: 1 }}
@@ -130,18 +135,23 @@ function Board(props) {
                     return (
                         <div className="card__container" key={card.id}>
                             <Card boardId={board.id} data={card}></Card>
-                            <DropZone
-                                full={
-                                    index == board.cards.length - 1
-                                        ? true
-                                        : false
-                                }
+                            { index!=board.cards.length-1 ? <DropZone
+                                full={index == board.cards.length - 1 ? true : false}
                                 index={index + 1}
                                 key={card.id + "dbz"}
-                            ></DropZone>
+                            >
+                                {console.log("Came in here!")}
+                            </DropZone> : ""} 
                         </div>
                     );
                 })}
+                {board.cards.length != 0 ? <DropZone
+                    full={true}
+                    index={board.cards.length + 1}
+                    key={board.cards.length + 1 + "dbz"}
+                >
+                    {console.log("Came in here!")}
+                </DropZone> : ""}
             </motion.div>
             <div className="board__footer">
                 <Editable

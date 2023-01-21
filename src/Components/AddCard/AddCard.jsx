@@ -58,7 +58,7 @@ function AddCard(props) {
 
     function handleTagInput(event) {
         if (event.keyCode == 13) {
-            if(!tagInputRef.current.value) {
+            if (!tagInputRef.current.value) {
                 return;
             }
             event.preventDefault();
@@ -121,15 +121,46 @@ function AddCard(props) {
         // triggerActive();
     }
 
+    const backdropVariant = {
+        initial: {
+            opacity: 0,
+        },
+        animated: {
+            opacity: 1,
+        },
+    };
+
     return (
         <AnimatePresence>
-            <motion.div 
-            className="add__card__backdrop" onClick={toggleEditingState}>
+            <motion.div
+                variants={backdropVariant}
+                initial="initial"
+                animate="animated"
+                exit={{
+                    opacity: 0,
+                    transition: {
+                        when: "afterChildren"
+                    }
+                }}
+                transition={{
+                    duration: .2
+                }}
+                className="add__card__backdrop"
+                onClick={toggleEditingState}
+            >
                 <motion.form
-                    initial={{ scale: .2 }}
-                    animate={{ scale: 1, opacity: 1, animationTimingFunction: "ease-in-out" }}
-                    exit={{ scale: .2 }}
-                    transition={{duration: .1, type: "spring", stiffness: 130}}
+                    initial={{ scale: 0.2 }}
+                    animate={{
+                        scale: 1,
+                        opacity: 1,
+                        animationTimingFunction: "ease-in-out",
+                    }}
+                    exit={{ scale: 0.2 }}
+                    transition={{
+                        duration: 0.1,
+                        type: "spring",
+                        stiffness: 130,
+                    }}
                     className="add__card"
                     onSubmit={handleSubmit}
                     ref={addCardRef}

@@ -31,7 +31,7 @@ function App() {
         animated: {
             transition: {
                 when: "beforeChildren",
-                staggerChildren: 0.05,
+                staggerChildren: 0.06,
             },
         },
     };
