@@ -38,21 +38,24 @@ function Board(props) {
     };
 
     // Variants
-
-    const boardVariants = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animated: {
-            scale: 1,
-            opacity: 1,
-        }
-    };
+    // const boardVariants = {
+    //     initial: {
+    //         opacity: 0,
+    //         scale: 0.9,
+    //     },
+    //     animated: {
+    //         scale: 1,
+    //         opacity: 1,
+    //         transition: {
+    //             duration: 0.6,
+    //             type: "spring",
+    //         },
+    //     },
+    // };
+    
 
     return (
         <motion.div
-            transition={{ duration: 0.6, type: "spring" }}
             style={{
                 zIndex: editing ? 30 : 10,
             }}
@@ -63,13 +66,11 @@ function Board(props) {
             // exit={{ scaleX: 0, opacity: 0 }}
 
             // ----------------- Opacity -------------------
-            variants = {boardVariants}
-            // initial="initial"
-            // animate="animated"
-            exit={{
-                scale: 0.9,
-                opacity: 0,
-            }}
+            // variants={boardVariants}
+            // exit={{
+            //     scale: 0.9,
+            //     opacity: 0,
+            // }}
             // ----------------- Top to down fall -------------------
             // initial={{ translateY: "-100vh", opacity: 0 }}
             // animate={{ translateY: "0vh", opacity: 1 }}

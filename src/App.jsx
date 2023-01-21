@@ -30,9 +30,23 @@ function App() {
     const appBoardVariants = {
         animated: {
             transition: {
-                delayChildren: 2,
                 when: "beforeChildren",
-                staggerChildren: 0.5,
+                staggerChildren: 0.05,
+            },
+        },
+    };
+
+    const boardVariants = {
+        initial: {
+            opacity: 0,
+            scale: 0.9,
+        },
+        animated: {
+            scale: 1,
+            opacity: 1,
+            transition: {
+                duration: 0.6,
+                type: "spring",
             },
         },
     };
@@ -104,6 +118,21 @@ function App() {
         setData([...data]);
         updateData(dataDocRef, [...data]);
     }
+    
+    // const boardVariants = {
+    //     initial: {
+    //         opacity: 0,
+    //         scale: 0.9,
+    //     },
+    //     animated: {
+    //         scale: 1,
+    //         opacity: 1,
+    //         transition: {
+    //             duration: 0.6,
+    //             type: "spring",
+    //         },
+    //     },
+    // };
 
     if (user) {
         return (
@@ -160,23 +189,29 @@ function App() {
                             ) : (
                                 <motion.div
                                     variants={appBoardVariants}
+                                    initial="initial"
                                     animate="animated"
                                     className="app__boards"
                                 >
-                                    <AnimatePresence>
                                         {data.map((board, index) => {
                                             return (
-                                                <Board
-                                                    functions={{
-                                                        changeBoardTitle,
-                                                    }}
-                                                    key={board.id}
-                                                    data={board}
-                                                    index={index}
-                                                />
+                                                <motion.div
+                                                style={{
+                                                    minHeight: "100%",
+                                                }}
+                                                key={board.id}
+                                                variants={boardVariants}>
+                                                    <Board
+                                                        functions={{
+                                                            changeBoardTitle,
+                                                        }}
+                                                        key={board.id}
+                                                        data={board}
+                                                        index={index}
+                                                    />
+                                                </motion.div>
                                             );
                                         })}
-                                    </AnimatePresence>
                                 </motion.div>
                             )}
                         </div>

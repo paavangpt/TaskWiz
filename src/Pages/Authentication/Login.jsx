@@ -7,7 +7,6 @@ import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOu
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { getData } from "../../Data/DataProvider";
 import { FaGoogle, FaSignInAlt } from 'react-icons/fa';
-import { LogIn } from "react-feather";
 
 const Login = () => {
     const [email, setEmail] = useState("");
