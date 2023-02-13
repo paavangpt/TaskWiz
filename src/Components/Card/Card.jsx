@@ -55,12 +55,9 @@ function Card(props) {
 
     return (
         <motion.div
-            transition={{ duration: 0.1 }}
-            whileDrag={{ scale: 1.1 }}
             className="card flex-col gap-4 p-2 bg-white cursor-pointer shadow-lg"
             draggable="true"
             onDragStart={dragStarted}
-            layout
             // drag
             // drag
             // dragConstraints = {{

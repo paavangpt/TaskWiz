@@ -1,21 +1,15 @@
-import { signOut } from "firebase/auth";
-import { updateDoc } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
-import { createContext, useRef } from "react";
 import { useEffect } from "react";
-import { useContext } from "react";
 import { useState } from "react";
 import { Power } from "react-feather";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { createBrowserRouter, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
 import "./App.css";
-import AddCard from "./Components/AddCard/AddCard";
 import Board from "./Components/Board/Board";
 import Modal from "./Components/Modal/Modal";
 import SignOutConfirmationModal from "./Components/SignOutConfirmationModal/SignOutConfirmationModal";
 import DataContext from "./Contexts/DataContext";
-import { getData } from "./Data/DataProvider";
 import { auth, loadData, loadUserData, updateData } from "./Data/Firebase";
 
 function App() {
@@ -118,7 +112,7 @@ function App() {
         setData([...data]);
         updateData(dataDocRef, [...data]);
     }
-    
+
     // const boardVariants = {
     //     initial: {
     //         opacity: 0,
@@ -192,26 +186,29 @@ function App() {
                                     initial="initial"
                                     animate="animated"
                                     className="app__boards"
-                                >
-                                        {data.map((board, index) => {
-                                            return (
-                                                <motion.div
+                                >   
+                                    
+                                    {data.map((board, index) => {
+                                        return (
+                                            <motion.div
                                                 style={{
                                                     minHeight: "100%",
                                                 }}
                                                 key={board.id}
-                                                variants={boardVariants}>
-                                                    <Board
-                                                        functions={{
-                                                            changeBoardTitle,
-                                                        }}
-                                                        key={board.id}
-                                                        data={board}
-                                                        index={index}
-                                                    />
-                                                </motion.div>
-                                            );
-                                        })}
+                                                variants={boardVariants}
+                                                layout
+                                            >
+                                                <Board
+                                                    functions={{
+                                                        changeBoardTitle,
+                                                    }}
+                                                    key={board.id}
+                                                    data={board}
+                                                    index={index}
+                                                />
+                                            </motion.div>
+                                        );
+                                    })}
                                 </motion.div>
                             )}
                         </div>

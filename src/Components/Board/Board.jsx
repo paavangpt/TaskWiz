@@ -121,7 +121,7 @@ function Board(props) {
                     )}
                 </div>
             </div>
-            <motion.div className="board__cards flex-1" layout>
+            <motion.div className="board__cards flex-1" layout layoutScroll>
                 {board.cards.length == 0 ? (
                     <DropZone
                         full={true}
@@ -133,25 +133,47 @@ function Board(props) {
                 )}
                 {board.cards.map((card, index) => {
                     return (
-                        <div className="card__container" key={card.id}>
-                            <Card boardId={board.id} data={card}></Card>
-                            { index!=board.cards.length-1 ? <DropZone
-                                full={index == board.cards.length - 1 ? true : false}
-                                index={index + 1}
-                                key={card.id + "dbz"}
+                        <AnimatePresence>
+                            <motion.div
+                                layout
+                                layoutId={card.id}
+                                transition={{
+                                    // duration: 10
+                                }}
+                                className="card__container"
+                                key={card.id + "_container"}
                             >
-                                {console.log("Came in here!")}
-                            </DropZone> : ""} 
-                        </div>
+                                <Card boardId={board.id} data={card}></Card>
+                                {index != board.cards.length - 1 ? (
+                                    <DropZone
+                                        full={
+                                            index == board.cards.length - 1
+                                                ? true
+                                                : false
+                                        }
+                                        index={index + 1}
+                                        key={card.id + "dbz"}
+                                    >
+                                        {console.log("Came in here!")}
+                                    </DropZone>
+                                ) : (
+                                    ""
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
                     );
                 })}
-                {board.cards.length != 0 ? <DropZone
-                    full={true}
-                    index={board.cards.length + 1}
-                    key={board.cards.length + 1 + "dbz"}
-                >
-                    {console.log("Came in here!")}
-                </DropZone> : ""}
+                {board.cards.length != 0 ? (
+                    <DropZone
+                        full={true}
+                        index={board.cards.length + 1}
+                        key={board.cards.length + 1 + "dbz"}
+                    >
+                        {console.log("Came in here!")}
+                    </DropZone>
+                ) : (
+                    ""
+                )}
             </motion.div>
             <div className="board__footer">
                 <Editable
