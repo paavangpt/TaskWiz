@@ -1,3 +1,4 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { User } from "react-feather";
@@ -23,15 +24,45 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(!user) {
+        if (!user) {
             return;
         }
         navigate("/app");
-    },[user, loading]);
+    }, [user, loading]);
+
+    function handleRegisterWithGoogle(e) {
+        e.preventDefault();
+        signInWithPopup(auth, new GoogleAuthProvider()).then((res) => {
+            const user = res.user;
+            const q = query(
+                collection(db, "users"),
+                where("uid", "==", user.uid)
+            );
+            getDocs(q).then((res) => {
+                console.log("inside log in checker");
+                const docs = res.docs;
+                console.log(docs);
+                if (docs.length === 0) {
+                    addDoc(collection(db, "users"), {
+                        uid: user.uid,
+                        name: user.displayName,
+                        email: user.email,
+                        authProvider: "google",
+                    }).then(() => {
+                        addDoc(collection(db, "data"), {
+                            uid: user.uid,
+                            data: getData(),
+                        });
+                    });
+                }
+            });
+        });
+    }
 
     function handleRegister(e) {
         e.preventDefault();
-        registerWithEmailAndPassword(auth, email, password).then(res => {
+        registerWithEmailAndPassword(auth, email, password)
+            .then((res) => {
                 const user = res.user;
                 console.log(user.displayName);
                 addDoc(collection(db, "users"), {
@@ -42,12 +73,13 @@ const Register = () => {
                 }).then(() => {
                     addDoc(collection(db, "data"), {
                         uid: user.uid,
-                        data: getData()
+                        data: getData(),
                     });
                 });
-        }).catch(err => {
-            alert(err.message);
-        })
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
     }
 
     return (
@@ -92,13 +124,22 @@ const Register = () => {
                     Register
                     <User />
                 </button>
-                <button className="register__btn__google form__btn flex gap-3 place-items-center" onClick={handleRegister}>
+                <button
+                    className="register__btn__google form__btn flex gap-3 place-items-center"
+                    onClick={handleRegisterWithGoogle}
+                >
                     Sign up with Google
                     <FaGoogle />
                 </button>
-                <button className="toggle__auth text-sm mt-5" onClick={e => {
-                    navigate("/login");
-                }}>Already a member ?<br />Click here to Login!</button>
+                <button
+                    className="toggle__auth text-sm mt-5"
+                    onClick={(e) => {
+                        navigate("/login");
+                    }}
+                >
+                    Already a member ?<br />
+                    Click here to Login!
+                </button>
             </form>
         </div>
     );
