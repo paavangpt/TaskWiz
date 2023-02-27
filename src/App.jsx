@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 import { useState } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
 import { Power } from "react-feather";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +114,31 @@ function App() {
         updateData(dataDocRef, [...data]);
     }
 
+    const handleDragEnd = (result) => {
+        console.log(result);
+        // dropzone.current.classList.remove(activeDropzoneClass);
+        // const cardData = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+        // const targetBoardId = dropzone.current.closest(".board").dataset.id;
+        const targetBoard = data.find(board => board.id == result.destination.droppableId);
+        const sourceBoard = data.find(board => board.id == result.source.droppableId);
+        console.log(sourceBoard);
+        
+        // if(sourceBoard.id == targetBoard.id) {
+        //     targetBoard.cards = targetBoard.cards.filter(crd => crd.id != cardData.id);
+        //     targetBoard.cards.splice(props.index, 0, cardData);
+        //     console.log("Same same : ");
+        //     console.log(data);
+        //     return;
+        // }
+        
+        const card = sourceBoard.cards.filter(crd => crd.id == parseInt(result.draggableId))[0];
+        sourceBoard.cards = sourceBoard.cards.filter(crd => crd.id != parseInt(result.draggableId));
+        targetBoard.cards.splice(result.destination.index, 0, card);
+        setData([...data]);
+        updateData(dataDocRef, [...data]);
+    }
+
     // const boardVariants = {
     //     initial: {
     //         opacity: 0,
@@ -181,35 +207,36 @@ function App() {
                                     </p>
                                 </div>
                             ) : (
-                                <motion.div
-                                    variants={appBoardVariants}
-                                    initial="initial"
-                                    animate="animated"
-                                    className="app__boards"
-                                >   
-                                    
-                                    {data.map((board, index) => {
-                                        return (
-                                            <motion.div
-                                                style={{
-                                                    minHeight: "100%",
-                                                }}
-                                                key={board.id}
-                                                variants={boardVariants}
-                                                layout
-                                            >
-                                                <Board
-                                                    functions={{
-                                                        changeBoardTitle,
+                                <DragDropContext onDragEnd={handleDragEnd}>
+                                    <motion.div
+                                        variants={appBoardVariants}
+                                        initial="initial"
+                                        animate="animated"
+                                        className="app__boards"
+                                    >
+                                        {data.map((board, index) => {
+                                            return (
+                                                <motion.div
+                                                    style={{
+                                                        minHeight: "100%",
                                                     }}
-                                                    key={board.id}
-                                                    data={board}
-                                                    index={index}
-                                                />
-                                            </motion.div>
-                                        );
-                                    })}
-                                </motion.div>
+                                                    key={board.id + ""}
+                                                    variants={boardVariants}
+                                                    layout
+                                                >
+                                                    <Board
+                                                        functions={{
+                                                            changeBoardTitle,
+                                                        }}
+                                                        key={board.id + ""}
+                                                        data={board}
+                                                        index={index}
+                                                    />
+                                                </motion.div>
+                                            );
+                                        })}
+                                    </motion.div>
+                                </DragDropContext>
                             )}
                         </div>
                     </div>

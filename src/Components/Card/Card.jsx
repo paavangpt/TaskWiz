@@ -53,11 +53,19 @@ function Card(props) {
         );
     }
 
+    function handleDragOnTitle(event) {
+        console.log("Drag Ended on P!");
+        event.preventDefault();
+    }
+
     return (
         <motion.div
             className="card flex-col gap-4 p-2 bg-white cursor-pointer shadow-lg"
-            draggable="true"
-            onDragStart={dragStarted}
+
+            // TODO: Removed the previous drag and drop feature
+            // draggable="true"
+            // onDragStart={dragStarted}
+            
             // drag
             // drag
             // dragConstraints = {{
@@ -94,6 +102,7 @@ function Card(props) {
                     contentEditable
                     suppressContentEditableWarning="true"
                     onBlur={cardTitleChanged}
+                    draggable="false"
                 >
                     {card.title}
                 </p>

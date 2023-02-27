@@ -11,17 +11,17 @@ function DropZone(props) {
     const activeDropzoneClass = props.full ? "active__full__dropzone" : "active__dropzone";
 
     const dropzone = useRef();
-    console.log(" is full : " + props.full);
+    // console.log(" is full : " + props.full);
 
-    function handleDragEnter() {
-        console.log("Entered");
-        dropzone.current.classList.add(activeDropzoneClass);
-    }
+    // function handleDragEnter() {
+    //     console.log("Entered");
+    //     dropzone.current.classList.add(activeDropzoneClass);
+    // }
 
-    function handleDragExit() {
-        console.log("Exited");
-        dropzone.current.classList.remove(activeDropzoneClass);
-    }
+    // function handleDragExit() {
+    //     console.log("Exited");
+    //     dropzone.current.classList.remove(activeDropzoneClass);
+    // }
 
     function handleDragOver(event) {
         event.preventDefault();
@@ -57,8 +57,6 @@ function DropZone(props) {
             ref={dropzone}
             className= {props.full ? "full__dropzone" : "dropzone"}
             onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragExit}
             onDrop={handleDrop}
         >
 

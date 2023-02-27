@@ -11,6 +11,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    z-index: 10 !important;
 }
 
 .board__top {
@@ -32,6 +33,15 @@
     font-weight: 700;
 }
 
+.board__title__text {
+    outline:0 none !important;
+    border: 0 none !important;
+}
+
+.board__title__text:focus {
+    border: 0 none !important;
+}
+
 .board__card__count {
     margin: 10px;
     font-size: 0.8em;
@@ -44,7 +54,7 @@
 .board__cards {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     flex: 1;
     width: 100%;
     padding: 0 10px;
@@ -54,7 +64,8 @@
     background-color: transparent;
     /* overflow-y: scroll;
     max-height: 65%; */
-    scrollbar-color: rgba(0,0,0,0.5);
+    scrollbar-color: rgba(0, 0, 0, 0.5);
+    scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
@@ -75,4 +86,4 @@
 
 .board__footer {
     margin: 10px;
-} 
+}

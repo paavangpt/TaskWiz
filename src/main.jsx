@@ -10,7 +10,6 @@ import { Home, Layout } from "react-feather";
 import HomePage from "./Pages/Home/HomePage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<HomePage />}></Route>
@@ -19,5 +18,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/register" element={<Register />}></Route>
             </Routes>
         </BrowserRouter>
-    </React.StrictMode>
 );

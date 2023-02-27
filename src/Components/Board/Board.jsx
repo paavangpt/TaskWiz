@@ -9,6 +9,7 @@ import "./Board.css";
 import AddCard from "../AddCard/AddCard";
 import { updateData } from "../../Data/Firebase";
 import { motion, AnimatePresence, animate } from "framer-motion";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 function Board(props) {
     const board = props.data;
@@ -19,14 +20,14 @@ function Board(props) {
     const [editing, setEditing] = useState(false);
     const { data, setData, dataDocRef } = useContext(DataContext);
 
-    useEffect(() => {
-        if (editing) {
-            boardRef.current.parentElement.style.zIndex = 30;
-            return;
-        }
-        boardRef.current.parentElement.style.zIndex = 10;
-        console.log("\n\nEffected\n\n");
-    }, [editing]);
+    // useEffect(() => {
+    //     if (editing) {
+    //         boardRef.current.parentElement.style.zIndex = 30;
+    //         return;
+    //     }
+    //     boardRef.current.parentElement.style.zIndex = 10;
+    //     console.log(board.id);
+    // }, [editing]);
 
     function toggleDropDown() {
         setShowDropDown(!showDropDown);
@@ -64,7 +65,6 @@ function Board(props) {
     return (
         <motion.div
             ref={boardRef}
-            // key={props.key}
             // ----------------- Scale -------------------
             // initial={{ scaleX: 0, opacity: 0, transformOrigin: "left" }}
             // animate={{ scaleX: 1, opacity: 1 }}
@@ -121,60 +121,91 @@ function Board(props) {
                     )}
                 </div>
             </div>
-            <motion.div className="board__cards flex-1" layout layoutScroll>
-                {board.cards.length == 0 ? (
-                    <DropZone
-                        full={true}
-                        index={0}
-                        key={board.id + "dbz"}
-                    ></DropZone>
-                ) : (
-                    <DropZone index={0} key={board.id + "dbz"}></DropZone>
-                )}
-                {board.cards.map((card, index) => {
-                    return (
-                        <AnimatePresence>
-                            <motion.div
-                                layout
-                                layoutId={card.id}
-                                transition={{
-                                    // duration: 10
-                                }}
-                                className="card__container"
-                                key={card.id + "_container"}
-                            >
-                                <Card boardId={board.id} data={card}></Card>
-                                {index != board.cards.length - 1 ? (
-                                    <DropZone
-                                        full={
-                                            index == board.cards.length - 1
-                                                ? true
-                                                : false
-                                        }
-                                        index={index + 1}
-                                        key={card.id + "dbz"}
-                                    >
-                                        {console.log("Came in here!")}
-                                    </DropZone>
-                                ) : (
-                                    ""
-                                )}
-                            </motion.div>
-                        </AnimatePresence>
-                    );
-                })}
-                {board.cards.length != 0 ? (
-                    <DropZone
-                        full={true}
-                        index={board.cards.length + 1}
-                        key={board.cards.length + 1 + "dbz"}
+            <Droppable droppableId={board.id + ""} key={board.id + ""}>
+                {(provided) => (
+                    <motion.div
+                        key={board.id + ""}
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="board__cards flex-1"
+                        layout
                     >
-                        {console.log("Came in here!")}
-                    </DropZone>
-                ) : (
-                    ""
+                        {board.cards.length != 0 && (
+                            <DropZone
+                                index={0}
+                                key={board.id + "dbz"}
+                            ></DropZone>
+                        )}
+                        <AnimatePresence>
+                            {board.cards.map((card, index) => {
+                                return (
+                                    <Draggable
+                                        key={card.id + "_container"}
+                                        index={index}
+                                        draggableId={`${card.id}`}
+                                    >
+                                        {(provided) => (
+                                            <motion.div
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                ref={provided.innerRef}
+                                                // layoutId={card.id}
+                                                className="card__container"
+                                            >
+                                                <Card
+                                                    boardId={board.id}
+                                                    data={card}
+                                                ></Card>
+                                                {
+                                                    //     index != board.cards.length - 1 ? (
+                                                    //     <DropZone
+                                                    //         full={
+                                                    //             index == board.cards.length - 1
+                                                    //                 ? true
+                                                    //                 : false
+                                                    //         }
+                                                    //         index={index + 1}
+                                                    //         key={card.id + "dbz"}
+                                                    //     >
+                                                    //         {console.log("Came in here!")}
+                                                    //     </DropZone>
+                                                    // ) : (
+                                                    //     ""
+                                                    // )
+                                                }
+                                            </motion.div>
+                                        )}
+                                    </Draggable>
+                                );
+                            })}
+                            {provided.placeholder}
+                        </AnimatePresence>
+                        {
+                            //     board.cards.length != 0 ? (
+                            //     <DropZone
+                            //         full={true}
+                            //         index={board.cards.length + 1}
+                            //         key={board.cards.length + 1 + "dbz"}
+                            //     >
+                            //         {console.log("Came in here!")}
+                            //     </DropZone>
+                            // ) : (
+                            //     ""
+                            // )
+                        }
+                        {
+                            //     board.cards.length == 0 && (
+                            //     <DropZone
+                            //         full={true}
+                            //         index={0}
+                            //         key={board.id + "dbz"}
+                            //     ></DropZone>
+                            // )
+                        }
+                    </motion.div>
                 )}
-            </motion.div>
+            </Droppable>
+
             <div className="board__footer">
                 <Editable
                     toggleEditingState={setEditing}
