@@ -9,6 +9,15 @@ import { updateData } from "../../Data/Firebase";
 import { dateCreator } from "../../Data/DataProvider";
 import { motion, AnimatePresence } from "framer-motion";
 
+const backdropVariant = {
+    initial: {
+        opacity: 0,
+    },
+    animated: {
+        opacity: 1,
+    },
+};
+
 function AddCard(props) {
     const [tags, setTags] = useState([]);
     const addCardRef = useRef();
@@ -121,17 +130,9 @@ function AddCard(props) {
         // triggerActive();
     }
 
-    const backdropVariant = {
-        initial: {
-            opacity: 0,
-        },
-        animated: {
-            opacity: 1,
-        },
-    };
+    
 
     return (
-        <AnimatePresence>
             <motion.div
                 variants={backdropVariant}
                 initial="initial"
@@ -147,6 +148,7 @@ function AddCard(props) {
                 }}
                 className="add__card__backdrop"
                 onClick={toggleEditingState}
+                key="add-card"
             >
                 <motion.form
                     initial={{ scale: 0.2 }}
@@ -218,7 +220,6 @@ function AddCard(props) {
                     </div>
                 </motion.form>
             </motion.div>
-        </AnimatePresence>
     );
 }
 

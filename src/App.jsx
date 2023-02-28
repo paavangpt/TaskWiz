@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
 import "./App.css";
 import Board from "./Components/Board/Board";
+import EditCard from "./Components/EditCard/EditCard";
 import Modal from "./Components/Modal/Modal";
 import SignOutConfirmationModal from "./Components/SignOutConfirmationModal/SignOutConfirmationModal";
 import DataContext from "./Contexts/DataContext";
 import { auth, loadData, loadUserData, updateData } from "./Data/Firebase";
+import useWindowDimensions from "./hooks/useWindowDimensions";
 
 function App() {
     const [data, setData] = useState([]);
@@ -19,6 +21,8 @@ function App() {
     const [user, loading, error] = useAuthState(auth);
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
+
+    const windowDimensions = useWindowDimensions();
 
     const [isSigningOut, setIsSigningOut] = useState(false);
 
@@ -120,10 +124,14 @@ function App() {
         // const cardData = JSON.parse(event.dataTransfer.getData("text/plain"));
 
         // const targetBoardId = dropzone.current.closest(".board").dataset.id;
-        const targetBoard = data.find(board => board.id == result.destination.droppableId);
-        const sourceBoard = data.find(board => board.id == result.source.droppableId);
+        const targetBoard = data.find(
+            (board) => board.id == result.destination.droppableId
+        );
+        const sourceBoard = data.find(
+            (board) => board.id == result.source.droppableId
+        );
         console.log(sourceBoard);
-        
+
         // if(sourceBoard.id == targetBoard.id) {
         //     targetBoard.cards = targetBoard.cards.filter(crd => crd.id != cardData.id);
         //     targetBoard.cards.splice(props.index, 0, cardData);
@@ -131,13 +139,17 @@ function App() {
         //     console.log(data);
         //     return;
         // }
-        
-        const card = sourceBoard.cards.filter(crd => crd.id == parseInt(result.draggableId))[0];
-        sourceBoard.cards = sourceBoard.cards.filter(crd => crd.id != parseInt(result.draggableId));
+
+        const card = sourceBoard.cards.filter(
+            (crd) => crd.id == parseInt(result.draggableId)
+        )[0];
+        sourceBoard.cards = sourceBoard.cards.filter(
+            (crd) => crd.id != parseInt(result.draggableId)
+        );
         targetBoard.cards.splice(result.destination.index, 0, card);
         setData([...data]);
         updateData(dataDocRef, [...data]);
-    }
+    };
 
     // const boardVariants = {
     //     initial: {
@@ -156,6 +168,19 @@ function App() {
 
     if (user) {
         return (
+            windowDimensions.width <= 400 
+            ?
+                <div className="mobile-not-supported-container">
+                
+                    <div className="mobile-not-supported-content">
+                        <h3>Hey There! 👋<br />What's up? 😄</h3>
+                        <p>We're really sorry to inform you that we don't currently support mobile phones. 
+                        <br />
+                        Please open in a bigger screen for a great experience.</p>
+                    </div>
+
+                </div>
+            :
             <DataContext.Provider value={{ data, setData, dataDocRef }}>
                 {isSigningOut && (
                     <Modal>
@@ -166,6 +191,9 @@ function App() {
                 )}
                 <AnimatePresence>
                     <div className="app">
+                        <AnimatePresence>
+                            <EditCard />
+                        </AnimatePresence>
                         <div className="app__navbar">
                             <span id="title">TaskWiz</span>
                             <div className="app__navbar__end">
@@ -222,7 +250,6 @@ function App() {
                                                     }}
                                                     key={board.id + ""}
                                                     variants={boardVariants}
-                                                    layout
                                                 >
                                                     <Board
                                                         functions={{

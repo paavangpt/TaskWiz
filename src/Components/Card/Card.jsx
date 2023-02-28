@@ -8,12 +8,14 @@ import Dropdown from "../Dropdown/Dropdown";
 import Modal from "../Modal/Modal";
 import { updateData } from "../../Data/Firebase";
 import { motion } from "framer-motion";
+import EditCard from "../EditCard/EditCard";
+import { useCardEditing } from "../../store/store";
 
 function Card(props) {
     const [showDropDown, setShowDropDown] = useState(false);
-    const [editing, setEditing] = useState(true);
     const { data, setData, dataDocRef } = useContext(DataContext);
     const card = props.data;
+    const setEditing = useCardEditing((state) => state.setEditing);
 
     function toggleDropDown() {
         setShowDropDown(!showDropDown);
@@ -53,6 +55,10 @@ function Card(props) {
         );
     }
 
+    function doubleClickHandler(event) {
+        setEditing(true, card, props.boardId);
+    }
+
     function handleDragOnTitle(event) {
         console.log("Drag Ended on P!");
         event.preventDefault();
@@ -74,6 +80,7 @@ function Card(props) {
             //     bottom: 10,
             //     right: 10
             // }}
+            onDoubleClick={doubleClickHandler}
         >
             <div className="card__top flex justify-between">
                 <div className="tags flex flex-wrap gap-1">
@@ -98,7 +105,7 @@ function Card(props) {
             </div>
             <div className="card__content">
                 <p
-                    className="card__content__title hover:text-red-900"
+                    className="card__content__title"
                     contentEditable
                     suppressContentEditableWarning="true"
                     onBlur={cardTitleChanged}
