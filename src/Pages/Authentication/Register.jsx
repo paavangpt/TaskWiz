@@ -29,6 +29,41 @@ const Register = () => {
         navigate("/app");
     },[user, loading]);
 
+    const handleLoginWithGoogle = (e) => {
+        e.preventDefault();
+        console.log("Came in here! Hyalkdjfaskldjfas ");
+        signInWithPopup(auth, new GoogleAuthProvider()).then((res) => {
+            const user = res.user;
+            const q = query(
+                collection(db, "users"),
+                where("uid", "==", user.uid)
+            );
+            getDocs(q).then((res) => {
+                console.log("inside log in checker");
+                const docs = res.docs;
+                console.log(docs);
+                if(docs.length === 0) {
+                    addDoc(collection(db, "users"), {
+                        uid: user.uid,
+                        name: user.displayName,
+                        email: user.email,
+                        authProvider: "google"
+                    }).then(() => {
+                        addDoc(collection(db, "data"), {
+                            uid: user.uid,
+                            data: getData()
+                        });
+                    });
+                }
+            })
+        });
+        // signInWithGoogle().then((user) => {
+        //     console.log(user);
+        // });
+        console.log("Exiting");
+    };
+
+
     function handleRegister(e) {
         e.preventDefault();
         registerWithEmailAndPassword(auth, email, password).then(res => {
@@ -92,7 +127,7 @@ const Register = () => {
                     Register
                     <User />
                 </button>
-                <button className="register__btn__google form__btn flex gap-3 place-items-center" onClick={handleRegister}>
+                <button className="register__btn__google form__btn flex gap-3 place-items-center" onClick={handleLoginWithGoogle}>
                     Sign up with Google
                     <FaGoogle />
                 </button>
